@@ -8,3 +8,6 @@ adding them to dotspacemacs-configuration-layers in your .spacemacs file.
 The rtags layer contains all my C++ configs. It's meant to be used as a
 standalone C++ layer, so you shouldn't enable the c-c++ layer that comes with
 spacemacs.
+
+Note that the mikezackles layer includes support for highlighting generate ninja
+files.
