@@ -49,7 +49,7 @@ Works with: template-args-cont."
   (let ((result (c-lineup-template-args langelem)))
     (if (not (eq result nil))
         (if (line-has-leading-comma-p)
-            (vector (- (aref result 0) c-basic-offset))
+            (vector (- (aref result 0) 2))
           result))))
 
 (defun my-lineup-template-close (langelem)
@@ -82,7 +82,7 @@ Works with: template-args-cont."
               (my-c-backward-template-prelude)
               (vector
                (+ (current-column)
-                  (if leading-comma 0 c-basic-offset)))))))))
+                  (if leading-comma (- c-basic-offset 2) c-basic-offset)))))))))
 
 (defun my-innamespace (x)
   "Be smart about indenting namespaces if multiple namespaces are opened on one
