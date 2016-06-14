@@ -166,7 +166,7 @@ line."
           (inher-cont . c-lineup-multi-inher)
           (inher-intro . +)
           (inlambda . c-lineup-inexpr-block)
-          (inline-open . +)
+          (inline-open . 0)
           (inmodule . +)
           (knr-argdecl . 0)
           (knr-argdecl-intro . +)
