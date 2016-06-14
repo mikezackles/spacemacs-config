@@ -10,14 +10,89 @@
 ;; List of packages to exclude.
 (setq rtags-excluded-packages '())
 
+(defun line-has-leading-comma-p ()
+  (save-excursion
+    (beginning-of-line)
+    (c-forward-token-2 0 nil (c-point 'eol))
+    (eq (char-after) ?,)))
+
+(defun my-c-backward-template-prelude ()
+  "Back up over expressions that end with a template argument list.
+Examples include:
+        typename foo<bar>::baz::mumble
+        foo(bar, baz).template bing
+"
+  (while
+      (save-excursion
+        ;; Inspect the previous token or balanced pair to
+        ;; see whether to skip backwards over it
+        (c-backward-syntactic-ws)
+        (or
+         ;; is it the end of a nested template argument list?
+         (and
+          (eq (char-before) ?>)
+          (c-backward-token-2 1 t) ;; skips over balanced "<>" pairs
+          (eq (char-after) ?<))
+
+         (and
+          (c-backward-token-2 1 t)
+          (looking-at "[A-Za-z_\\[(.]\\|::\\|->"))))
+
+    (c-backward-token-2 1 t)))
+
+(defun my-lineup-more-template-args (langelem)
+  "Line up template argument lines under the first argument,
+adjusting for leading commas. To allow this function to be used in
+a list expression, nil is returned if there's no template
+argument on the first line.
+Works with: template-args-cont."
+  (let ((result (c-lineup-template-args langelem)))
+    (if (not (eq result nil))
+        (if (line-has-leading-comma-p)
+            (vector (- (aref result 0) c-basic-offset))
+          result))))
+
+(defun my-lineup-template-close (langelem)
+  (save-excursion
+    (c-with-syntax-table c++-template-syntax-table
+      (beginning-of-line)
+      (c-forward-syntactic-ws (c-point 'eol))
+      (if (and
+           (eq (char-after) ?>)
+           (progn
+             (forward-char)
+             (c-backward-token-2 1 t) ;; skips over balanced "<>" pairs
+             (eq (char-after) ?<)))
+          (progn
+            (my-c-backward-template-prelude)
+            (vector (current-column)))))))
+
+(defun my-lineup-first-template-args (langelem)
+  "Align lines beginning with the first template argument.
+To allow this function to be used in a list expression, nil is
+returned if we don't appear to be in a template argument list.
+Works with: template-args-cont."
+  (let ((leading-comma (line-has-leading-comma-p)))
+    (save-excursion
+      (c-with-syntax-table c++-template-syntax-table
+        (beginning-of-line)
+        (backward-up-list 1)
+        (if (eq (char-after) ?<)
+            (progn
+              (my-c-backward-template-prelude)
+              (vector
+               (+ (current-column)
+                  (if leading-comma 0 c-basic-offset)))))))))
+
 (defun my-innamespace (x)
+  "Be smart about indenting namespaces if multiple namespaces are opened on one
+line."
   (defun followed-by (cases)
     (cond ((null cases) nil)
           ((assq (car cases)
                  (cdr (memq c-syntactic-element c-syntactic-context))) t)
           (t (followed-by (cdr cases)))))
-  (if (followed-by '(innamespace namespace-close)) 0 '+)
-  )
+  (if (followed-by '(innamespace namespace-close)) 0 '+))
 
 (defun rtags/init-cc-mode ()
   (use-package cc-mode
@@ -33,6 +108,7 @@
     (evil-leader/set-key-for-mode 'c++-mode
       "m g a" 'projectile-find-other-file
       "m g A" 'projectile-find-other-file-other-window)
+
     (c-add-style "zam++"
       '("c++_guessed"
         (c-basic-offset . 2)
@@ -108,7 +184,12 @@
           (substatement . +)
           (substatement-label . 2)
           (substatement-open . +)
-          (template-args-cont c-lineup-template-args +)
+          ;(template-args-cont c-lineup-template-args +)
+          (template-args-cont
+           my-lineup-more-template-args
+           my-lineup-template-close
+           my-lineup-first-template-args
+           +)
           )
         )
       )
