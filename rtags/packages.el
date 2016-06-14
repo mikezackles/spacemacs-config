@@ -94,6 +94,9 @@ line."
           (t (followed-by (cdr cases)))))
   (if (followed-by '(innamespace namespace-close)) 0 '+))
 
+(defun my-arglist-cont (x)
+  (if (line-has-leading-comma-p) -2 0))
+
 (defun rtags/init-cc-mode ()
   (use-package cc-mode
     :defer t
@@ -128,7 +131,8 @@ line."
           (annotation-top-cont . 0)
           (annotation-var-cont . +)
           (arglist-close . c-lineup-close-paren)
-          (arglist-cont c-lineup-gcc-asm-reg 0)
+          ;(arglist-cont c-lineup-gcc-asm-reg 0)
+          (arglist-cont my-arglist-cont 0)
           (arglist-cont-nonempty . c-lineup-arglist)
           (arglist-intro . +)
           (block-open . 0)
