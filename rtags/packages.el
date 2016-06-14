@@ -37,7 +37,7 @@
           (block-close . 0)
           (class-close . 0)
           (defun-block-intro . +)
-          (inclass . 0)
+          (inclass . +)
           (inline-close . 0)
           (innamespace . (lambda (x) (if (followed-by '(innamespace namespace-close)) 0 '+)))
           (namespace-close . 0)
