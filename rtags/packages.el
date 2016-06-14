@@ -10,6 +10,15 @@
 ;; List of packages to exclude.
 (setq rtags-excluded-packages '())
 
+(defun my-innamespace (x)
+  (defun followed-by (cases)
+    (cond ((null cases) nil)
+          ((assq (car cases)
+                 (cdr (memq c-syntactic-element c-syntactic-context))) t)
+          (t (followed-by (cdr cases)))))
+  (if (followed-by '(innamespace namespace-close)) 0 '+)
+  )
+
 (defun rtags/init-cc-mode ()
   (use-package cc-mode
     :defer t
@@ -24,11 +33,6 @@
     (evil-leader/set-key-for-mode 'c++-mode
       "m g a" 'projectile-find-other-file
       "m g A" 'projectile-find-other-file-other-window)
-    (defun followed-by (cases)
-      (cond ((null cases) nil)
-            ((assq (car cases)
-                   (cdr (memq c-syntactic-element c-syntactic-context))) t)
-            (t (followed-by (cdr cases)))))
     (c-add-style "zam++"
       '("c++_guessed"
         (c-basic-offset . 2)
@@ -39,7 +43,7 @@
           (defun-block-intro . +)
           (inclass . +)
           (inline-close . 0)
-          (innamespace . (lambda (x) (if (followed-by '(innamespace namespace-close)) 0 '+)))
+          (innamespace . my-innamespace)
           (namespace-close . 0)
           (statement . 0)
           (statement-block-intro . +)
