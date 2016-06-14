@@ -121,6 +121,8 @@
       (require 'company-rtags)
       (add-to-list 'company-backends-c-mode-common 'company-rtags)
       (setq company-rtags-begin-after-member-access t)
+      (setq rtags-autostart-diagnostics t) ;; added after checking rtags docs
+      (rtags-diagnostics)
       (setq rtags-completions-enabled t)
 
       (define-key evil-normal-state-map (kbd "RET") 'rtags-select-other-window)
@@ -129,8 +131,6 @@
 
       (rtags-evil-standard-keybindings 'c-mode)
       (rtags-evil-standard-keybindings 'c++-mode)
-
-      (rtags-diagnostics)
       )
     )
   )
