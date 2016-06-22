@@ -25,7 +25,7 @@ values."
      ;; version-control
      ;; spell-checking
      mikezackles
-     rtags
+     cmake-ide
 
      (shell :variables
             shell-default-height 30
@@ -322,7 +322,7 @@ you should place your code here."
      "UUID_"
      (upcase (replace-regexp-in-string "-" "_" (shell-command-to-string "uuidgen")))))
 
-  (defun insert-random-uuid ()
+  (defun insert-header-guard ()
     (interactive)
     (let ((uuid (uuid-string)))
       (princ
