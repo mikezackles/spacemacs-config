@@ -335,6 +335,9 @@ you should place your code here."
        "\n#endif"
        (current-buffer))
       ))
+
+  ;; Make undo behave like vim
+  (setq evil-want-fine-undo nil)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will

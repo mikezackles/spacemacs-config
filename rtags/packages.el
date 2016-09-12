@@ -4,6 +4,7 @@
         company
         company-c-headers
         gdb-mi
+        cmake-mode
         rtags
         ))
 
@@ -96,6 +97,15 @@ line."
 
 (defun my-arglist-cont (x)
   (if (line-has-leading-comma-p) -2 0))
+
+(defun rtags/init-modern-cpp-font-lock ()
+  (use-package modern-cpp-font-lock
+    :init
+    :ensure cc-mode
+    :config
+    (modern-c++-font-lock-global-mode t)
+    )
+  )
 
 (defun rtags/init-cc-mode ()
   (use-package cc-mode
@@ -205,15 +215,21 @@ line."
     )
   )
 
-(defun rtags/post-init-company ()
-  (spacemacs|add-company-hook c-mode-common))
+(defun rtags/init-cmake-mode ()
+  (use-package cmake-mode
+    :mode (("CMakeLists\\.txt\\'" . cmake-mode) ("\\.cmake\\'" . cmake-mode))
+    :init (push 'company-cmake company-backends-cmake-mode)))
 
-(when (configuration-layer/layer-usedp 'auto-completion)
-  (defun rtags/init-company-c-headers ()
-    (use-package company-c-headers
-      :if (configuration-layer/package-usedp 'company)
-      :defer t
-      :init (add-to-list 'company-backends-c-mode-common 'company-c-headers))))
+(defun rtags/post-init-company ()
+  (spacemacs|add-company-hook c-mode-common)
+  (spacemacs|add-company-hook cmake-mode))
+
+;(when (configuration-layer/layer-usedp 'auto-completion)
+;  (defun rtags/init-company-c-headers ()
+;    (use-package company-c-headers
+;      :if (configuration-layer/package-usedp 'company)
+;      :defer t
+;      :init (add-to-list 'company-backends-c-mode-common 'company-c-headers))))
 
 (defun rtags-evil-standard-keybindings (mode)
   (spacemacs/set-leader-keys-for-major-mode mode
