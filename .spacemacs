@@ -25,7 +25,7 @@ values."
      ;; version-control
      ;; spell-checking
      mikezackles
-     cmake-ide
+     rtags
 
      (shell :variables
             shell-default-height 30

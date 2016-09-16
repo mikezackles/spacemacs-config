@@ -218,7 +218,8 @@ line."
 (defun rtags/init-cmake-mode ()
   (use-package cmake-mode
     :mode (("CMakeLists\\.txt\\'" . cmake-mode) ("\\.cmake\\'" . cmake-mode))
-    :init (push 'company-cmake company-backends-cmake-mode)))
+    :ensure company
+    :config (push 'company-cmake company-backends-cmake-mode)))
 
 (defun rtags/post-init-company ()
   (spacemacs|add-company-hook c-mode-common)
