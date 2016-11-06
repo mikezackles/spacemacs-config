@@ -28,5 +28,6 @@
     )
   )
 
+(spacemacs/declare-prefix "o" "clipboard")
 (evil-leader/set-key "o y" 'copy-to-x-clipboard)
 (evil-leader/set-key "o p" 'paste-from-x-clipboard)
