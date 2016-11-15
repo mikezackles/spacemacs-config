@@ -14,7 +14,10 @@
 ;; which require an initialization must be listed explicitly in the list.
 (setq mikezackles-packages
     '(
+      ;; This package does not exist. We need it to wrap the call to
+      ;; spacemacs/declare-prefix.
+      (mikezackles-helper :location built-in)
       ))
 
-;; List of packages to exclude.
-(setq mikezackles-excluded-packages '())
+(defun mikezackles/init-mikezackles-helper ()
+  (spacemacs/declare-prefix "o" "clipboard"))
