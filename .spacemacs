@@ -27,7 +27,7 @@ values."
      rtags
 
      spell-checking
-     (spacemacs-ui-visual :packages (not neotree))
+     ;(spacemacs-ui-visual :packages (not neotree))
 
      ;;(shell :variables
      ;;       shell-default-height 30
