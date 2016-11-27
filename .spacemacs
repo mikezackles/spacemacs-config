@@ -327,6 +327,19 @@ you should place your code here."
   (add-to-list 'spacemacs-indent-sensitive-modes 'c++-mode)
   (add-to-list 'spacemacs-indent-sensitive-modes 'c-mode)
 
+  ;; Turn off annoying auto-newline at end of file. Please stop doing things
+  ;; automatically for me, emacs.
+  (setq mode-require-final-newline nil)
+
+  ;; Assume project-local compilation and test commands are safe as long as the
+  ;; user will be prompted to approve them before running
+  (put 'projectile-project-compilation-cmd 'safe-local-variable
+       (lambda (a) (and (stringp a) (or (not (boundp 'compilation-read-command))
+                                        compilation-read-command))))
+  (put 'projectile-project-test-cmd 'safe-local-variable
+       (lambda (a) (and (stringp a) (or (not (boundp 'compilation-read-command))
+                                        compilation-read-command))))
+
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
