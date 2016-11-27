@@ -319,7 +319,8 @@ you should place your code here."
   (add-hook 'font-lock-mode-hook
             (lambda ()
               (font-lock-add-keywords
-               'prog-mode
+               ;'prog-mode
+               nil
                '(("\t" 0 'trailing-whitespace prepend)))))
 
   ;; Turn off (broken) auto-indent on paste
