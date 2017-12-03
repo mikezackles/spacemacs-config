@@ -18,6 +18,7 @@ values."
    ;; of a list then all discovered layers will be installed.
    dotspacemacs-configuration-layers
    '(
+     html
      php
      ;; ----------------------------------------------------------------
      ;; Press <SPC f e R> (Vim style) to install
