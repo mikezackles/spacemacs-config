@@ -315,13 +315,13 @@ you should place your code here."
   ;; Full screen magit status
   (setq-default git-magit-status-fullscreen t)
 
-  ;; Highlight tabs
-  (add-hook 'font-lock-mode-hook
-            (lambda ()
-              (font-lock-add-keywords
-               ;'prog-mode
-               nil
-               '(("\t" 0 'trailing-whitespace prepend)))))
+  ;;; Highlight tabs
+  ;(add-hook 'font-lock-mode-hook
+  ;          (lambda ()
+  ;            (font-lock-add-keywords
+  ;             ;'prog-mode
+  ;             nil
+  ;             '(("\t" 0 'trailing-whitespace prepend)))))
 
   ;; Turn off (broken) auto-indent on paste
   (add-to-list 'spacemacs-indent-sensitive-modes 'c++-mode)
