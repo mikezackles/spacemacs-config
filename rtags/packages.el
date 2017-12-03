@@ -4,6 +4,7 @@
         company
         gdb-mi
         cmake-mode
+        meson-mode
         rtags
         ))
 
@@ -48,9 +49,14 @@
     :mode (("CMakeLists\\.txt\\'" . cmake-mode) ("\\.cmake\\'" . cmake-mode))
     :init (push 'company-cmake company-backends-cmake-mode)))
 
+(defun rtags/init-meson-mode ()
+  (use-package meson-mode
+    :mode (("meson\\.build\\'" . meson-mode))))
+
 (defun rtags/post-init-company ()
   (spacemacs|add-company-hook c-mode-common)
-  (spacemacs|add-company-hook cmake-mode))
+  (spacemacs|add-company-hook cmake-mode)
+  (spacemacs|add-company-hook meson-mode))
 
 (defun rtags-evil-standard-keybindings (mode)
   (spacemacs/declare-prefix-for-mode mode "mg" "goto")
