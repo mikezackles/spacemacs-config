@@ -20,6 +20,13 @@
     )
   )
 
+;(defun sane-indentation ()
+;  (setq c-syntactic-indentation nil)
+;  (setq indent-tabs-mode t)
+;  (setq tab-stop-list (number-sequence 2 200 2))
+;  (setq tab-width 2)
+;  (setq indent-line-function 'insert-tab))
+
 (defun rtags/init-cc-mode ()
   (use-package cc-mode
     :defer t
@@ -32,6 +39,7 @@
     ;; turn off auto-indentation
     (add-to-list 'c-mode-common-hook
       (lambda () (setq c-syntactic-indentation nil)))
+    ;(add-to-list 'c-mode-common-hook 'sane-indentation)
     )
   )
 
