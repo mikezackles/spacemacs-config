@@ -1,4 +1,4 @@
-;;; packages.el --- mikezackles Layer packages File for Spacemacs
+;;; packages.el --- clipboard Layer packages File for Spacemacs
 ;;
 ;; Copyright (c) 2012-2014 Sylvain Benner
 ;; Copyright (c) 2014-2015 Sylvain Benner & Contributors
@@ -12,12 +12,12 @@
 
 ;; List of all packages to install and/or initialize. Built-in packages
 ;; which require an initialization must be listed explicitly in the list.
-(setq mikezackles-packages
+(setq clipboard-packages
     '(
       ;; This package does not exist. We need it to wrap the call to
       ;; spacemacs/declare-prefix.
-      (mikezackles-helper :location built-in)
+      (clipboard-helper :location built-in)
       ))
 
-(defun mikezackles/init-mikezackles-helper ()
+(defun clipboard/init-clipboard-helper ()
   (spacemacs/declare-prefix "o" "clipboard"))
